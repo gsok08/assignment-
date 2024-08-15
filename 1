@@ -1,3 +1,4 @@
+New! Keyboard shortcuts … Drive keyboard shortcuts have been updated to give you first-letters navigation
 //ordering beverages
 
 #include <iostream>
@@ -18,6 +19,7 @@ int drt = 0;//drink number for tea
 int qty = 0;//quantity of drink
 const int numCol = 50;
 int numDrinks = 0;
+int num = 0;
 vector<int> drtea;//record tea
 vector<int> qtytea;//record qty of tea
 vector<int>drsoda;
@@ -31,18 +33,19 @@ int priceTea[8] = { 0,2,3,4,5,6,7,8 };
 string nameSoda[5] = { "","Strawberry ","Lychee","yuzhu","melon" };
 int priceSoda[5] = { 0,11,11,12,10 };
 string nameCoffee[6] = { "","latte","cappccino","mocha","americano","espresso" };
-int priceCoffee[6] = { 0,10.90,10.90,11.90,9.90,8.90 };
+double priceCoffee[6] = { 0,10.90,10.90,11.90,9.90,8.90 };
 
 void printLine(int colWidth, int numCols);
 void home();
 void menu();
 void cart();
+void lucky();
 void receipt();
 
 //table's line
 void printLine(int colWidth, int numCols) {
     for (int i = 0; i < numCols; ++i) {
-        cout << string(colWidth, '-');
+            cout << string(colWidth, '-');
     }
     cout << endl;
 }
@@ -80,7 +83,10 @@ void cart() {
     cout << "wanna place order (Y/N)";
     cin >> choose;
     if (choose == 'Y' || choose == 'y') {
-        receipt();
+        if (total >= 150) {
+            lucky();
+        }
+        else receipt();
     }
     else if (choose == 'N' || choose == 'n') {
         home();
@@ -89,8 +95,30 @@ void cart() {
 
 }
 
+void lucky() {
+    num = rand() % 100 + 1;
+    cout << "You wanna do the lucky draw discount(Y/N)";
+    cin >> choose;
+    if (choose == 'Y' || choose == 'y') {
+        cout << "Your lucky number is " << num << endl;
+        cout << "You get " << num << "discount" << endl;
+            cout << "continues?(Y/N) : ";
+            cin >> choose;
+            if (choose == 'Y' || choose == 'y') {
+                receipt();
+            }
+            else if (choose == 'N' || choose == 'n') {
+                home();
+            }
+            else cout << "invalid enter";
+    }
+    else if (choose == 'N' || choose == 'n') {
+        receipt();
+    }
+}
+
 void logo() {
-    cout << setw(53) << "" << setw(6) << "" << setw(5) << "___" << setw(5) << "___" << setw(4) << "" << setw(4.5) << "" << setw(4) << " _" << "\n";
+    cout << setw(53) << "" << setw(6) << "" << setw(5) << "___" << setw(5) << "___" << setw(4) << "" << setw(4) << "" << setw(4) << " _" << "\n";
     cout << setw(60) << "\\ \\  / / " << setw(4) << " | |  | |" << setw(5) << "  | |/ /" << setw(5) << "| |" << "\n";
     cout << setw(58) << "\\ \\/ /" << setw(11) << " | |  | |" << setw(3) << "  | ' / " << setw(5) << "| |" << "\n";
     cout << setw(57) << "\\  /" << setw(13) << " | |  | | " << setw(5) << " |  <" << setw(7) << "| |" << "\n";
@@ -296,22 +324,28 @@ void menu() {
 void receipt() {
     double src = total * 0.10;
     double tax = total * 0.06;
+    double total_2 = total * 1.16;
     cout << "Cash,Credit Card or TNG(C,D,T) : ";
     cin >> choose;
     printLine(colWidth, numCols);
     cart_result();
-    cout << "Service charge(10%) : " << src << "\n";
-    cout << "Tax (6%) : " << tax << "\n";
-    cout << "total payable : " << total + src + tax << "\n";
-
     if (choose == 'c' || choose == 'C') {
-        cout << "Payment Method : Cash\n";  
+        cout << "Payment Method : Cash\n";
     }
     else if (choose == 'D' || choose == 'd') {
         cout << "Payment Method : Credit Card\n";
     }
     else if (choose == 't' || choose == 'T') {
         cout << "Payment Method : TNG\n";
+    }
+    cout << "Service charge(10%) : " << src << "\n";
+    cout << "Tax (6%) : " << tax << "\n";
+    cout << "total payable : " << total_2 << "\n";
+
+    if (total >= 150) {
+        cout << "discount : " << num << endl;
+        cout << "discount price : " << double(num/100) * total_2 << endl;
+        cout << "total payable after discount : " << total_2 * double((100 - num) / 100) << endl;
     }
 
 }
