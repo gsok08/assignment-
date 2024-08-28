@@ -9,8 +9,8 @@
 using namespace std;
 //variables
  int option = 0;
-const int colWidth2 = 20;
-const int colWidth = 44;
+const int colWidth2 = 15;
+const int colWidth = 25;
 const int numCols = 2;
 int c = 0;//categories
 double total = 0;//the total price of drink]
@@ -75,19 +75,19 @@ void cart_result() {
 }
 
 void cart() {
-    printLine(colWidth, numCols);
-    cout << '|' << left << setw(6) << "No" << '|' << setw(colWidth2) << "Name" << '|' << setw(colWidth) << "quantity" << setw(colWidth2) << '|' << "Price(RM)" << '|' << endl;
-    printLine(colWidth, numCols);
+    printLine(50, numCols);
+    cout << '|' << left << setw(6) << "No" << '|' << setw(colWidth2) << "Name" << '|' << setw(colWidth) << "quantity" << setw(30) << '|' << "Price(RM)" << '|' << endl;
+    printLine(50, numCols);
     cart_result();
-    printLine(colWidth, numCols);
-    cout << setw(100) << '|' << total << '|' << endl;
+    printLine(50, numCols);
+    cout << setw(50) << '|' << total << '|' << endl;
     cout << "wanna place order (Y/N)";
     cin >> choose;
     if (choose == 'Y' || choose == 'y') {
         receipt();
     }
     else if (choose == 'N' || choose == 'n') {
-        home();
+        menu();
     }
     else cout << "INVALID ENTER" << endl;
 
@@ -106,6 +106,7 @@ void logo() {
 
 
 
+
 void home() {
     logo();
     cout << "Welcome to YUKI cafe" << endl;
@@ -116,10 +117,7 @@ void home() {
     cout << "3.QUTI" << endl;
     cout << "ENTER YOUR OPTION = ";
     cin >> option;
-}
-
-void menu() {
-    while (option != 1 && option != 2 && option != 3){
+    while (option !=3) {
         switch (option) {
         case 1:
             logo();
@@ -131,11 +129,11 @@ void menu() {
             cout << "Which drink will you like to choose : ";
             cin >> c;
             if (c == 0) {// enter 0 bring you back to home
-                home();
+                menu();
             }
             //tea
             switch (c) {
-            case 1:
+            case 1: 
                 void tea(); {
                     printLine(colWidth, numCols);
 
@@ -178,7 +176,7 @@ void menu() {
                             cart();
                         }
                         else if (choose == ' N' || choose == 'n') {
-                            home();
+                            menu();
                         }
                     }
                     break;
@@ -227,7 +225,7 @@ void menu() {
                             cart();
                         }
                         else if (choose == ' N' || choose == 'n') {
-                            home();
+                            menu();
                         }
                     }
                     break;
@@ -275,10 +273,11 @@ void menu() {
                             cart();
                         }
                         else if (choose == ' N' || choose == 'n') {
-                            home();
+                            menu();
                         }
                     }
                     break;
+                    
                 }
             default:
                 cout << "invalid enter";
@@ -295,10 +294,10 @@ void menu() {
             cout << "invalid enter" << "\n";
             cout << "please re-enter your order : ";
             cin >> option;
-            menu();
+            cout << "\n";
             break;
         }
-    }
+   }
 }
 
 void receipt() {
@@ -309,6 +308,7 @@ void receipt() {
     cin >> choose;
     printLine(colWidth, numCols);
     cart_result();
+    printLine(colWidth, numCols);
     if (choose == 'c' || choose == 'C') {
         cout << "Payment Method : Cash\n";
     }
@@ -321,9 +321,9 @@ void receipt() {
     cout << "Service charge(10%) : " << setprecision(2) << fixed << src << "\n";
     cout << "Tax (6%)            : " << setprecision(2) << fixed << tax << "\n";
     cout << "total payable       : " << setprecision(2) << fixed << total_2 << "\n";
+    exit(0);
 }
 int main() {
-    home();
     menu();
     return 0;
 }
