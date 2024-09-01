@@ -1,3 +1,4 @@
+//ordering beverages
 #include <iostream>
 #include <string>
 #include <cmath>
@@ -20,6 +21,8 @@ int qty = 0;//quantity of drink
 const int numCol = 50;
 int numDrinks = 0;
 int num = 0;
+string id;
+string pw;//password
 string option1;
 vector<int> drtea;//record tea
 vector<int> qtytea;//record qty of tea
@@ -37,13 +40,14 @@ string nameCoffee[6] = { "","latte","cappccino","mocha","americano","espresso" }
 double priceCoffee[6] = { 0,10.90,10.90,11.90,9.90,8.90 };
 
 void printLine(int colWidth, int numCols);
-void printcol();
 void home();
 void menu();
 void cart();
 void cart_result();
 void receipt();
 void logo();
+void rg();
+void login();
 
 //table's line
 void printLine(int colWidth, int numCols) {
@@ -53,11 +57,6 @@ void printLine(int colWidth, int numCols) {
     cout << endl;
 }
 
-void printcol(int numCol) {
-    for (int i = 0; i < numCol; ++i) {
-        cout << '|' << setw(87) << '|' << endl;
-    }
-}
 
 void cart_result() {
     for (size_t i = 0; i < drtea.size(); ++i) {
@@ -76,6 +75,19 @@ void cart_result() {
     }
 }
 
+void login() {
+    cout << "Login";
+    cout << "ID : ";
+    getline(cin,id);
+    cout << "Password : ";
+    getline(cin, pw);   
+    cout << "\n\n\n\n";
+    cout << "if ";
+}
+
+void rg() {
+
+}
 void cart() {
     printLine(50, numCols);
     cout << '|' << left << setw(6) << "No" << '|' << setw(colWidth2) << "Name" << '|' << setw(colWidth) << "quantity" << setw(30) << '|' << "Price(RM)" << '|' << endl;
@@ -134,7 +146,7 @@ void home() {
     cout << "----------------------------------------------------------------------------------------------------------------" << endl;
     cout << "1.MENU" << endl;
     cout << "2.CART" << endl;
-    cout << "3.QUTI" << endl;
+    cout << "3.QUIT" << endl;
     cout << "ENTER YOUR OPTION = ";
     cin >> option;
     while (option != 3) {
@@ -347,11 +359,5 @@ void receipt() {
     cout << "Tax (6%)            : " << setprecision(2) << fixed << tax << "\n";
     cout << "total payable       : " << setprecision(2) << fixed << total_2 << "\n";
     exit(0);
-}
-
-int main(){
-home();
-menu();
-return 0;
 }
 
