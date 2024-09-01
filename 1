@@ -1,4 +1,3 @@
-//ordering beverages
 #include <iostream>
 #include <string>
 #include <cmath>
@@ -6,6 +5,7 @@
 #include <vector>
 #include <ctime>
 #include <cstdlib>
+#include <stdio.h>
 using namespace std;
 //variables
  int option = 0;
@@ -37,9 +37,11 @@ string nameCoffee[6] = { "","latte","cappccino","mocha","americano","espresso" }
 double priceCoffee[6] = { 0,10.90,10.90,11.90,9.90,8.90 };
 
 void printLine(int colWidth, int numCols);
+void printcol();
 void home();
 void menu();
 void cart();
+void cart_result();
 void receipt();
 void logo();
 
@@ -84,6 +86,24 @@ void cart() {
     cout << "wanna place order (Y/N)";
     cin >> choose;
     if (choose == 'Y' || choose == 'y') {
+        if (drsoda.empty() && drtea.empty() && drcoffee.empty()) {
+            cout << "your cart is empty " << "\n";
+            cout << "you wanna continue using yuki menu (Y/N) : ";
+            cin >> choose;
+            while (choose != 'Y' && choose != 'y' && choose != 'N' && choose == 'n') {
+                if (choose == 'Y' || choose == 'y') {
+                    home();
+                }
+                else if (choose == 'N' || choose == 'n') {
+                    cout << "Thank for using yuki menu ";
+                    exit(0);
+                }
+                else cout << "INVALID ENTER" << "\n";
+                cout << "please re-enter : ";
+                cin >> choose;
+            }
+        }
+        else
         receipt();
     }
     else if (choose == 'N' || choose == 'n') {
@@ -95,13 +115,13 @@ void cart() {
 
 
 void logo() {
-    cout << setw(53) << "" << setw(6) << "" << setw(5) << "___" << setw(5) << "___" << setw(4) << "" << setw(4) << "" << setw(4) << " _" << "\n";
-    cout << setw(60) << "\\ \\  / / " << setw(4) << " | |  | |" << setw(5) << "  | |/ /" << setw(5) << "| |" << "\n";
-    cout << setw(58) << "\\ \\/ /" << setw(11) << " | |  | |" << setw(3) << "  | ' / " << setw(5) << "| |" << "\n";
-    cout << setw(57) << "\\  /" << setw(13) << " | |  | | " << setw(5) << " |  <" << setw(7) << "| |" << "\n";
-    cout << setw(56) << "/ /" << setw(13) << " | |__| |" << setw(5) << " | |" << "\\ \\" << setw(5) << "| |" << "\n";
-    cout << setw(55) << " /_/" << setw(15) << " \\______/ " << setw(4) << "|_|" << setw(5) << "\\\_\\ " << setw(3) << "|_|" << "\n";
-    cout << setw(60) << "\n";
+    printf("%*s%*s%*s%*s%*s%*s%*s\n", 53, "", 6, "", 5, "___", 5, "___", 4, "", 4, "", 4, " _");
+    printf("%*s%*s%*s%*s\n", 60, "\\ \\  / / ", 4, " | |  | |", 5, "  | |/ /", 5, "| |");
+    printf("%*s%*s%*s%*s\n", 58, "\\ \\/ /", 11, " | |  | |", 3, "  | ' / ", 5, "| |");
+    printf("%*s%*s%*s%*s\n", 57, "\\  /", 13, " | |  | | ", 5, " |  <", 7, "| |");
+    printf("%*s%*s%*s%*s\n", 56, "/ /", 13, " | |__| |", 5, " | |", 5, "\\ \\",5," | | ");
+    printf("%*s%*s%*s%*s\n", 55, " /_/", 15, " \\______/ ", 4, "|_|", 5, "\\\_\\ ", 3, "|_|");
+    printf("%*s\n", 60, "");
 }
 
 
@@ -117,7 +137,11 @@ void home() {
     cout << "3.QUTI" << endl;
     cout << "ENTER YOUR OPTION = ";
     cin >> option;
-    while (option !=3) {
+    while (option != 3) {
+        menu();
+    }
+}
+void menu(){
         switch (option) {
         case 1:
             logo();
@@ -291,6 +315,7 @@ void home() {
             cout << "THANKS FOR USING YUKI MENU";
             break;
         default:
+            cin >> option;
             cout << "invalid enter" << "\n";
             cout << "please re-enter your order : ";
             cin >> option;
@@ -298,7 +323,7 @@ void home() {
             break;
         }
    }
-}
+
 
 void receipt() {
     double src = total * 0.10;
@@ -323,7 +348,4 @@ void receipt() {
     cout << "total payable       : " << setprecision(2) << fixed << total_2 << "\n";
     exit(0);
 }
-int main() {
-    menu();
-    return 0;
-}
+
