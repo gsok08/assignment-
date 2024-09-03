@@ -7,9 +7,10 @@
 #include <ctime>
 #include <cstdlib>
 #include <stdio.h>
+#include <fstream>
 using namespace std;
 //variables
- int option = 0;
+int option = 0;
 const int colWidth2 = 15;
 const int colWidth = 25;
 const int numCols = 2;
@@ -21,9 +22,12 @@ int qty = 0;//quantity of drink
 const int numCol = 50;
 int numDrinks = 0;
 int num = 0;
-string id;
-string pw;//password
-string option1;
+string userid;
+string staffid;
+string enteredPassword;//password
+string staffPassword;
+string userPassword;
+string correctPassword;
 vector<int> drtea;//record tea
 vector<int> qtytea;//record qty of tea
 vector<int>drsoda;
@@ -57,8 +61,68 @@ void printLine(int colWidth, int numCols) {
     cout << endl;
 }
 
+void displayMenu() {
+    cout << left << setw(30) << setfill('*') << "" << endl;
+    cout << left << setw(30) << setfill(' ') << "*Welcome to Yuki Cafe*" << endl;
+    cout << left << setw(30) << setfill('*') << "" << endl;
+    cout << left << setw(30) << setfill(' ') << "* 1. User" << endl;
+    cout << left << setw(30) << setfill(' ') << "* 2. Staff" << endl;
+    cout << left << setw(30) << setfill(' ') << "* 3. Exit" << endl;
+    cout << left << setw(30) << setfill('*') << "" << endl;
+}
+void login() {
+        displayMenu();
+        cout << "Enter your choice (1-3): ";
+        cin >> option;
+    
+    switch (option)
+    {
+    case 1:
+        cout << "new user.Register?(Y/N) : ";
+        cin >> choose;
+        if (choose == 'y' || choose == 'Y') {
+            ofstream g("registration.txt");
+            if (!g.is_open())
+            {
+                cout << "could not open file\n";
+     
+            }
+            cout << "\n\n\n"
+                << "New Username: ";
+            getline(cin, userid);
+            cout << "New Password: ";
+            getline(cin, userPassword);
+            g << userid;
+            g << '\n';
+            g << userPassword;
+            g.close();
+        }
 
+        break;
+    case 2:
+        cout << "Enter password: ";
+       cin >> enteredPassword;
+        if (enteredPassword == correctPassword) {
+            cout << "Access granted." << endl;
+        }
+        else {
+            cout << "Access denied." << endl;
+        }
+        break;
+    case 3:
+        cout << "Existing the main page" << "\n" << "Thanks for Looking at Yuki's cafe menu" << "\n";
+        break;
+
+    default:
+        cout << "Invalid choice. Please enter a number between 1 and 3.";
+    }
+}
+
+void rg() {
+
+}
 void cart_result() {
+    
     for (size_t i = 0; i < drtea.size(); ++i) {
         cout << '|' << left << setw(6) << i + 1 << '|' << setw(colWidth2) << nameTea[drtea[i]] << '|' << setw(colWidth) << qtytea[i] << '|' << setw(colWidth2) << priceTea[drtea[i]] << '|' << setw(colWidth2) << qtytea[i] * priceTea[drtea[i]] << endl;
         total += qtytea[i] * priceTea[drtea[i]];
@@ -75,19 +139,7 @@ void cart_result() {
     }
 }
 
-void login() {
-    cout << "Login";
-    cout << "ID : ";
-    getline(cin,id);
-    cout << "Password : ";
-    getline(cin, pw);   
-    cout << "\n\n\n\n";
-    cout << "if ";
-}
 
-void rg() {
-
-}
 void cart() {
     printLine(50, numCols);
     cout << '|' << left << setw(6) << "No" << '|' << setw(colWidth2) << "Name" << '|' << setw(colWidth) << "quantity" << setw(30) << '|' << "Price(RM)" << '|' << endl;
@@ -116,7 +168,7 @@ void cart() {
             }
         }
         else
-        receipt();
+            receipt();
     }
     else if (choose == 'N' || choose == 'n') {
         menu();
@@ -127,13 +179,16 @@ void cart() {
 
 
 void logo() {
-    printf("%*s%*s%*s%*s%*s%*s%*s\n", 53, "", 6, "", 5, "___", 5, "___", 4, "", 4, "", 4, " _");
-    printf("%*s%*s%*s%*s\n", 60, "\\ \\  / / ", 4, " | |  | |", 5, "  | |/ /", 5, "| |");
-    printf("%*s%*s%*s%*s\n", 58, "\\ \\/ /", 11, " | |  | |", 3, "  | ' / ", 5, "| |");
-    printf("%*s%*s%*s%*s\n", 57, "\\  /", 13, " | |  | | ", 5, " |  <", 7, "| |");
-    printf("%*s%*s%*s%*s\n", 56, "/ /", 13, " | |__| |", 5, " | |", 5, "\\ \\",5," | | ");
-    printf("%*s%*s%*s%*s\n", 55, " /_/", 15, " \\______/ ", 4, "|_|", 5, "\\\_\\ ", 3, "|_|");
-    printf("%*s\n", 60, "");
+    cout << endl;
+    cout << fixed;
+    cout << right;
+    cout << setw(53) << "" << setw(6) << "" << setw(5) << "" << setw(5) << "" << setw(4) << "" << setw(4) << "" << setw(4) << " _" << "\n";
+    cout << setw(60) << "\\ \\  / / " << setw(4) << " | |  | |" << setw(5) << "  | |/ /" << setw(5) << "| |" << "\n";
+    cout << setw(58) << "\\ \\/ /" << setw(11) << " | |  | |" << setw(3) << "  | ' / " << setw(5) << "| |" << "\n";
+    cout << setw(57) << "\\  /" << setw(13) << " | |  | | " << setw(5) << " |  <" << setw(7) << "| |" << "\n";
+    cout << setw(56) << "/ /" << setw(13) << " | || |" << setw(5) << " | |" << "\\ \\" << setw(5) << "| |" << "\n";
+    cout << setw(55) << " //" << setw(15) << " \\/ " << setw(4) << "||" << setw(5) << "\\\\\ " << setw(3) << "||" << "\n";
+    cout << setw(60) << "\n";
 }
 
 
@@ -153,188 +208,188 @@ void home() {
         menu();
     }
 }
-void menu(){
-        switch (option) {
-        case 1:
-            logo();
-            cout << "----------------------------------------------------------------------------------------------------------------" << endl;
-            cout << "MENU" << endl;
-            cout << "1.TEA" << endl;
-            cout << "2.SODA" << endl;
-            cout << "3.COFFEE" << endl;
-            cout << "Which drink will you like to choose : ";
-            cin >> c;
-            if (c == 0) {// enter 0 bring you back to home
-                menu();
-            }
-            //tea
-            switch (c) {
-            case 1: 
-                void tea(); {
-                    printLine(colWidth, numCols);
-
-                    cout << '|' << left << setw(6) << "No" << '|' << setw(colWidth2) << "Name" << '|' << setw(colWidth) << "Price(RM)" << '|' << endl;
-
-                    printLine(colWidth, numCols);
-                    for (int i = 1; i <= 7; i++) {
-
-                        cout << '|' << left << setw(6) << i << '|' << setw(colWidth2) << nameTea[i] << '|' << setw(colWidth) << priceTea[i] << '|' << endl;
-                    }
-
-                    printLine(colWidth, numCols);
-
-                    //calculate the total of the drink
-                    cout << "Enter the number drink you want : ";
-                    cin >> drt;
-                    if (drt == 0) {
-                        menu();
-                    }
-                    else if (drt >= 1 && drt <= 7) {
-                        drtea.push_back(drt);
-                        cout << "Enter the quantity of drink : ";
-                        cin >> qty;
-                        qtytea.push_back(qty);
-                    }
-                    else {
-                        cout << "INVALID NUMBER,PLEASE ENTER THE VALID NUMBER";
-
-                    }
-                    cout << endl;
-                    cout << "You wanna order more drink (Y/N) : ";//choose wanna order more or no
-                    cin >> choose;
-                    if (choose == 'Y' || choose == 'y') {//if yes this function will bring you back to menu
-                        menu();
-                    }
-                    else if (choose == 'N' || choose == 'n') {
-                        cout << "PLACE ORDER (Y/N) : ";
-                        cin >> choose;
-                        if (choose == 'Y' || choose == 'y') {
-                            cart();
-                        }
-                        else if (choose == ' N' || choose == 'n') {
-                            menu();
-                        }
-                    }
-                    break;
-                }
-                //soda
-            case 2:
-                void soda(); {
-                    printLine(colWidth, numCols);
-
-                    cout << '|' << left << setw(6) << "No" << '|' << setw(colWidth2) << "Name" << '|' << setw(colWidth) << "Price(RM)" << '|' << endl;
-
-                    printLine(colWidth, numCols);
-                    for (int i = 1; i <= 4; i++) {
-
-                        cout << '|' << left << setw(6) << i << '|' << setw(colWidth2) << nameSoda[i] << '|' << setw(colWidth) << priceSoda[i] << '|' << endl;
-                    }
-
-                    printLine(colWidth, numCols);
-
-                    //calculate the total of the drink
-                    cout << "Enter the number drink you want : ";
-                    cin >> drt;
-                    if (drt == 0) {
-                        menu();
-                    }
-                    else if (drt >= 1 && drt <= 4) {
-                        drsoda.push_back(drt);
-                        cout << "Enter the quantity of drink : ";
-                        cin >> qty;
-                        qtysoda.push_back(qty);
-                    }
-                    else {
-                        cout << "INVALID NUMBER,PLEASE ENTER THE VALID NUMBER";
-
-                    }
-                    cout << endl;
-                    cout << "You wanna order more drink (Y/N) : ";//choose wanna order more or no
-                    cin >> choose;
-                    if (choose == 'Y' || choose == 'y') {//if yes this function will bring you back to menu
-                        menu();
-                    }
-                    else if (choose == 'N' || choose == 'n') {
-                        cout << "PLACE ORDER (Y/N) : ";
-                        cin >> choose;
-                        if (choose == 'Y' || choose == 'y') {
-                            cart();
-                        }
-                        else if (choose == ' N' || choose == 'n') {
-                            menu();
-                        }
-                    }
-                    break;
-                }
-            case 3:
-                void coffee(); {
-                    printLine(colWidth, numCols);
-
-                    cout << '|' << left << setw(6) << "No" << '|' << setw(colWidth2) << "Name" << '|' << setw(colWidth) << "Price(RM)" << '|' << endl;
-
-                    printLine(colWidth, numCols);
-                    for (int i = 1; i <= 5; i++) {
-
-                        cout << '|' << left << setw(6) << i << '|' << setw(colWidth2) << nameCoffee[i] << '|' << setw(colWidth) << priceCoffee[i] << '|' << endl;
-                    }
-
-                    printLine(colWidth, numCols);
-
-                    //calculate the total of the drink
-                    cout << "Enter the number drink you want : ";
-                    cin >> drt;
-                    if (drt == 0) {
-                        menu();
-                    }
-                    else if (drt >= 1 && drt <= 5) {
-                        drcoffee.push_back(drt);
-                        cout << "Enter the quantity of drink : ";
-                        cin >> qty;
-                        qtycoffee.push_back(qty);
-                    }
-                    else {
-                        cout << "INVALID NUMBER,PLEASE ENTER THE VALID NUMBER";
-
-                    }
-                    cout << endl;
-                    cout << "You wanna order more drink (Y/N) : ";//choose wanna order more or no
-                    cin >> choose;
-                    if (choose == 'Y' || choose == 'y') {//if yes this function will bring you back to menu
-                        menu();
-                    }
-                    else if (choose == 'N' || choose == 'n') {
-                        cout << "PLACE ORDER (Y/N) : ";
-                        cin >> choose;
-                        if (choose == 'Y' || choose == 'y') {
-                            cart();
-                        }
-                        else if (choose == ' N' || choose == 'n') {
-                            menu();
-                        }
-                    }
-                    break;
-                    
-                }
-            default:
-                cout << "invalid enter";
-            }
-            break;
-
-        case 2:
-            cart();
-            break;
-        case 3:
-            cout << "THANKS FOR USING YUKI MENU";
-            break;
-        default:
-            cin >> option;
-            cout << "invalid enter" << "\n";
-            cout << "please re-enter your order : ";
-            cin >> option;
-            cout << "\n";
-            break;
+void menu() {
+    switch (option) {
+    case 1:
+        logo();
+        cout << "----------------------------------------------------------------------------------------------------------------" << endl;
+        cout << "MENU" << endl;
+        cout << "1.TEA" << endl;
+        cout << "2.SODA" << endl;
+        cout << "3.COFFEE" << endl;
+        cout << "Which drink will you like to choose : ";
+        cin >> c;
+        if (c == 0) {// enter 0 bring you back to home
+            menu();
         }
-   }
+        //tea
+        switch (c) {
+        case 1:
+            void tea(); {
+                printLine(colWidth, numCols);
+
+                cout << '|' << left << setw(6) << "No" << '|' << setw(colWidth2) << "Name" << '|' << setw(colWidth) << "Price(RM)" << '|' << endl;
+
+                printLine(colWidth, numCols);
+                for (int i = 1; i <= 7; i++) {
+
+                    cout << '|' << left << setw(6) << i << '|' << setw(colWidth2) << nameTea[i] << '|' << setw(colWidth) << priceTea[i] << '|' << endl;
+                }
+
+                printLine(colWidth, numCols);
+
+                //calculate the total of the drink
+                cout << "Enter the number drink you want : ";
+                cin >> drt;
+                if (drt == 0) {
+                    menu();
+                }
+                else if (drt >= 1 && drt <= 7) {
+                    drtea.push_back(drt);
+                    cout << "Enter the quantity of drink : ";
+                    cin >> qty;
+                    qtytea.push_back(qty);
+                }
+                else {
+                    cout << "INVALID NUMBER,PLEASE ENTER THE VALID NUMBER";
+
+                }
+                cout << endl;
+                cout << "You wanna order more drink (Y/N) : ";//choose wanna order more or no
+                cin >> choose;
+                if (choose == 'Y' || choose == 'y') {//if yes this function will bring you back to menu
+                    menu();
+                }
+                else if (choose == 'N' || choose == 'n') {
+                    cout << "PLACE ORDER (Y/N) : ";
+                    cin >> choose;
+                    if (choose == 'Y' || choose == 'y') {
+                        cart();
+                    }
+                    else if (choose == ' N' || choose == 'n') {
+                        menu();
+                    }
+                }
+                break;
+            }
+            //soda
+        case 2:
+            void soda(); {
+                printLine(colWidth, numCols);
+
+                cout << '|' << left << setw(6) << "No" << '|' << setw(colWidth2) << "Name" << '|' << setw(colWidth) << "Price(RM)" << '|' << endl;
+
+                printLine(colWidth, numCols);
+                for (int i = 1; i <= 4; i++) {
+
+                    cout << '|' << left << setw(6) << i << '|' << setw(colWidth2) << nameSoda[i] << '|' << setw(colWidth) << priceSoda[i] << '|' << endl;
+                }
+
+                printLine(colWidth, numCols);
+
+                //calculate the total of the drink
+                cout << "Enter the number drink you want : ";
+                cin >> drt;
+                if (drt == 0) {
+                    menu();
+                }
+                else if (drt >= 1 && drt <= 4) {
+                    drsoda.push_back(drt);
+                    cout << "Enter the quantity of drink : ";
+                    cin >> qty;
+                    qtysoda.push_back(qty);
+                }
+                else {
+                    cout << "INVALID NUMBER,PLEASE ENTER THE VALID NUMBER";
+
+                }
+                cout << endl;
+                cout << "You wanna order more drink (Y/N) : ";//choose wanna order more or no
+                cin >> choose;
+                if (choose == 'Y' || choose == 'y') {//if yes this function will bring you back to menu
+                    menu();
+                }
+                else if (choose == 'N' || choose == 'n') {
+                    cout << "PLACE ORDER (Y/N) : ";
+                    cin >> choose;
+                    if (choose == 'Y' || choose == 'y') {
+                        cart();
+                    }
+                    else if (choose == ' N' || choose == 'n') {
+                        menu();
+                    }
+                }
+                break;
+            }
+        case 3:
+            void coffee(); {
+                printLine(colWidth, numCols);
+
+                cout << '|' << left << setw(6) << "No" << '|' << setw(colWidth2) << "Name" << '|' << setw(colWidth) << "Price(RM)" << '|' << endl;
+
+                printLine(colWidth, numCols);
+                for (int i = 1; i <= 5; i++) {
+
+                    cout << '|' << left << setw(6) << i << '|' << setw(colWidth2) << nameCoffee[i] << '|' << setw(colWidth) << priceCoffee[i] << '|' << endl;
+                }
+
+                printLine(colWidth, numCols);
+
+                //calculate the total of the drink
+                cout << "Enter the number drink you want : ";
+                cin >> drt;
+                if (drt == 0) {
+                    menu();
+                }
+                else if (drt >= 1 && drt <= 5) {
+                    drcoffee.push_back(drt);
+                    cout << "Enter the quantity of drink : ";
+                    cin >> qty;
+                    qtycoffee.push_back(qty);
+                }
+                else {
+                    cout << "INVALID NUMBER,PLEASE ENTER THE VALID NUMBER";
+
+                }
+                cout << endl;
+                cout << "You wanna order more drink (Y/N) : ";//choose wanna order more or no
+                cin >> choose;
+                if (choose == 'Y' || choose == 'y') {//if yes this function will bring you back to menu
+                    menu();
+                }
+                else if (choose == 'N' || choose == 'n') {
+                    cout << "PLACE ORDER (Y/N) : ";
+                    cin >> choose;
+                    if (choose == 'Y' || choose == 'y') {
+                        cart();
+                    }
+                    else if (choose == ' N' || choose == 'n') {
+                        menu();
+                    }
+                }
+                break;
+
+            }
+        default:
+            cout << "invalid enter";
+        }
+        break;
+
+    case 2:
+        cart();
+        break;
+    case 3:
+        cout << "THANKS FOR USING YUKI MENU";
+        break;
+    default:
+        cin >> option;
+        cout << "invalid enter" << "\n";
+        cout << "please re-enter your order : ";
+        cin >> option;
+        cout << "\n";
+        break;
+    }
+}
 
 
 void receipt() {
@@ -360,4 +415,3 @@ void receipt() {
     cout << "total payable       : " << setprecision(2) << fixed << total_2 << "\n";
     exit(0);
 }
-
