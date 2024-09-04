@@ -461,7 +461,9 @@ void receipt() {
 }
 
 void staff_function() {
-
+     cout << " 1. Generate the report\n";
+     cout << " 2. Member\n";
+     cout << "3. Exit\n";
 }
 
 
