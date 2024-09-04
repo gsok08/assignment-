@@ -1,0 +1,17 @@
+void printLine(int colWidth, int numCols);
+void home();
+void menu();
+void cart();
+void cart_result();
+void receipt();
+void logo();
+void rg();
+void login();
+void displayMenu();
+void tea();
+void coffee();
+void soda();
+void staff_function();
+void staff_login();
+void user_login();
+void login_system();
